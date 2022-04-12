@@ -9,30 +9,30 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using CompModel = System.ComponentModel;
 
 namespace Kruh.Infrastructure
 {
   public static class IoCContainer
   {
     public static readonly DependencyProperty AutoWireViewModelProperty =
-    DependencyProperty.Register(
-      name: "AutoWireViewModel",
-      propertyType: typeof(bool),
-      ownerType: typeof(IoCContainer),
-      typeMetadata: new FrameworkPropertyMetadata(
-          defaultValue: default(bool),
-          flags: FrameworkPropertyMetadataOptions.None,
-          propertyChangedCallback: OnAutoWireViewModelChanged)
+      DependencyProperty.RegisterAttached(
+        name: "AutoWireViewModel",
+        propertyType: typeof(bool),
+        ownerType: typeof(IoCContainer),
+        new PropertyMetadata(
+            defaultValue: default(bool),
+            propertyChangedCallback: OnAutoWireViewModelChanged)
     );
 
     public static bool GetAutoWireViewModel(DependencyObject bindable)
     {
-      return (bool)bindable.GetValue(IoCContainer.AutoWireViewModelProperty);
+      return (bool)bindable.GetValue(AutoWireViewModelProperty);
     }
 
     public static void SetAutoWireViewModel(DependencyObject bindable, bool value)
     {
-      bindable.SetValue(IoCContainer.AutoWireViewModelProperty, value);
+      bindable.SetValue(AutoWireViewModelProperty, value);
     }
 
 
@@ -50,10 +50,9 @@ namespace Kruh.Infrastructure
 
 
 
-    private static void OnAutoWireViewModelChanged(DependencyObject bindable, DependencyPropertyChangedEventArgs e)
+    private static void OnAutoWireViewModelChanged(DependencyObject view, DependencyPropertyChangedEventArgs e)
     {
-      var view = bindable as FrameworkElement;
-      if (view == null)
+      if (CompModel.DesignerProperties.GetIsInDesignMode(view))
       {
         return;
       }
@@ -61,7 +60,8 @@ namespace Kruh.Infrastructure
       var viewType = view.GetType();
       var viewName = viewType.FullName.Replace(".Views.", ".ViewModels.");
       var viewAssemblyName = viewType.GetTypeInfo().Assembly.FullName;
-      var viewModelName = string.Format(CultureInfo.InvariantCulture, "{0}Model, {1}", viewName, viewAssemblyName);
+      var viewModelName = string.Format(
+        CultureInfo.InvariantCulture, "{0}Model, {1}", viewName, viewAssemblyName);
 
       var viewModelType = Type.GetType(viewModelName);
       if (viewModelType == null)
@@ -69,9 +69,19 @@ namespace Kruh.Infrastructure
         return;
       }
 
-      var viewModel = Activator.CreateInstance(viewModelType);
+      var scope = _container.BeginLifetimeScope();
+      var viewModel = scope.Resolve(viewModelType);
+      ((FrameworkElement)view).DataContext = viewModel;
 
-      view.DataContext = viewModel;
+      if(view is Window viewWindow)
+      {
+        viewWindow.Closed += (obj,arg) => scope.Dispose();
+      }
+      else 
+      {
+        throw new NotImplementedException();
+      }
+      
     }
 
   }
