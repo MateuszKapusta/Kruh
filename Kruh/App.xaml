@@ -12,6 +12,12 @@
                 <!-- Theme setting -->
                 <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Themes/Light.Teal.xaml" />
             </ResourceDictionary.MergedDictionaries>
+
+
+            <Style TargetType="Button">
+                <Setter Property="Height" Value="21"/>
+            </Style>
+            
         </ResourceDictionary>
     </Application.Resources>
 </prism:PrismApplication>

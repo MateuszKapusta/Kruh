@@ -10,7 +10,12 @@ namespace Kruh.ViewModels
 {
   public class LoginDialogViewModel : BindableBase, IDialogAware
   {
-    public string Title => "Login";
+    private string title = "Login";
+    public string Title
+    {
+      get { return title; }
+      set { SetProperty(ref title, value); }
+    }
 
     public event Action<IDialogResult> RequestClose;
 

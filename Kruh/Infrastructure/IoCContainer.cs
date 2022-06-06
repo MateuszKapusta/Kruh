@@ -20,6 +20,8 @@ namespace Kruh.Infrastructure
     public static void Register(IContainerRegistry containerRegistry)
     {
       //Dialogs
+      containerRegistry.RegisterDialogWindow<BaseDialogWindow>();
+      containerRegistry.RegisterDialogWindow<LoginDialogWindow>(nameof(LoginDialogWindow));
       containerRegistry.RegisterDialog<LoginDialog, LoginDialogViewModel>(nameof(LoginDialog));
 
     }

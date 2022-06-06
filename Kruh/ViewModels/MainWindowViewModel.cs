@@ -17,7 +17,7 @@ namespace Kruh.ViewModels
     {
       this.dialogService = dialogService;
 
-      dialogService.ShowDialog(nameof(LoginDialogViewModel).Replace("ViewModel", ""),  InitiateApplication);
+      dialogService.ShowDialog(nameof(LoginDialogViewModel).Replace("ViewModel", ""),null,  InitiateApplication, nameof(LoginDialogViewModel).Replace("ViewModel","Window"));
       //_=Application.Current.Dispatcher.InvokeAsync(()=>dialogService.ShowDialog(nameof(LoginDialogViewModel).Replace("ViewModel", ""), InitiateApplication));
     }
 
