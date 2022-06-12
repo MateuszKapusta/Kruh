@@ -14,10 +14,10 @@
             </ResourceDictionary.MergedDictionaries>
 
 
-            <Style TargetType="Button">
-                <Setter Property="Height" Value="21"/>
-            </Style>
-            
+            <Thickness x:Key="DefaultWindowMargin">20</Thickness>
+            <Thickness x:Key="DefaultMargin">2</Thickness>
+
+                    
         </ResourceDictionary>
     </Application.Resources>
 </prism:PrismApplication>

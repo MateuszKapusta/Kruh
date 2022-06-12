@@ -1,4 +1,5 @@
-﻿using Prism.Mvvm;
+﻿using Prism.Commands;
+using Prism.Mvvm;
 using Prism.Services.Dialogs;
 using System;
 using System.Collections.Generic;
@@ -10,6 +11,17 @@ namespace Kruh.ViewModels
 {
   public class LoginDialogViewModel : BindableBase, IDialogAware
   {
+    #region Properties
+
+    private string Password { get; set; }
+
+    private string login;
+    public string Login
+    {
+      get { return login; }
+      set { SetProperty(ref login, value); }
+    }
+
     private string title = "Login";
     public string Title
     {
@@ -19,8 +31,42 @@ namespace Kruh.ViewModels
 
     public event Action<IDialogResult> RequestClose;
 
+    #endregion
+
+    #region Commands
+
+    private DelegateCommand onLoginCommand;
+    public DelegateCommand OnLoginCommand =>
+        onLoginCommand ?? (onLoginCommand = new DelegateCommand(OnLogin, CanExecuteLoginCommand))
+        .ObservesProperty(()=> Login);
+
+    private DelegateCommand<string> onPasswordChangedCommand;
+    public DelegateCommand<string> OnPasswordChangedCommand =>
+        onPasswordChangedCommand ?? (onPasswordChangedCommand = new DelegateCommand<string>(OnPasswordChanged));
+
+    bool CanExecuteLoginCommand()
+    {
+      if(string.IsNullOrEmpty(Login) || string.IsNullOrEmpty(Password))
+        return false;
+      
+      return true;
+    }
+
+    #endregion
 
     public LoginDialogViewModel()
+    {
+
+    }
+
+    void OnPasswordChanged(string password)
+    {
+      this.Password = password;
+      OnLoginCommand.RaiseCanExecuteChanged();
+    }
+
+
+    void OnLogin()
     {
 
     }

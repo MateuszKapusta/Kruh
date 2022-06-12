@@ -9,7 +9,6 @@
         mc:Ignorable="d"
         prism:Dialog.WindowStartupLocation="CenterScreen"   
         ResizeMode="NoResize"
-        ShowInTaskbar="False"
         SizeToContent="WidthAndHeight"               
         Title="{Binding Title}">
 </mah:MetroWindow>

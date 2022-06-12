@@ -5,11 +5,26 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Kruh.Views"
              xmlns:prism="http://prismlibrary.com/"
+             xmlns:behaviors="http://schemas.microsoft.com/xaml/behaviors"
              prism:ViewModelLocator.AutoWireViewModel="True"
              mc:Ignorable="d" 
-             Height="405" Width="720">
-    <StackPanel>
-        
+             Height="405" Width="720"
+             Margin="{StaticResource DefaultWindowMargin}">
+    <StackPanel VerticalAlignment="Bottom">
+        <TextBox Text="{Binding Login, UpdateSourceTrigger=PropertyChanged}"
+                 Margin="{StaticResource DefaultMargin}"/>
+        <PasswordBox Margin="{StaticResource DefaultMargin}">
+            <behaviors:Interaction.Triggers>
+                <behaviors:EventTrigger EventName="PasswordChanged">
+                    <prism:InvokeCommandAction Command="{Binding OnPasswordChangedCommand}"
+                                               TriggerParameterPath="Source.Password"/>
 
+                </behaviors:EventTrigger>
+            </behaviors:Interaction.Triggers>
+        </PasswordBox>
+
+        <Button Command="{Binding OnLoginCommand}"
+                HorizontalAlignment="Right"
+                Width="360">Login</Button>
     </StackPanel>
 </UserControl>
