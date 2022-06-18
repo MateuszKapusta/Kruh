@@ -13,10 +13,31 @@
                 <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Themes/Light.Teal.xaml" />
             </ResourceDictionary.MergedDictionaries>
 
+            <!--Properties-->
 
-            <Thickness x:Key="DefaultWindowMargin">20</Thickness>
+            <Thickness x:Key="DefaultWindowMargin">18,14</Thickness>
             <Thickness x:Key="DefaultMargin">2</Thickness>
 
+            <!--Explicite  Styles-->
+
+            <Style TargetType="UserControl" 
+                   x:Key="DefaultUserControlStyle">
+                <Setter Property="Margin" Value="{StaticResource DefaultWindowMargin}"/>
+            </Style>
+
+            <Style TargetType="UserControl" 
+                   x:Key="DefaultCommunicatorUserControlStyle"
+                   BasedOn="{StaticResource DefaultUserControlStyle}">
+                <Setter Property="MinWidth" Value="360"/>
+                <Setter Property="MinHeight" Value="203"/>
+            </Style>
+
+            <!--Implicit  Styles-->
+
+            <Style TargetType="Button"  BasedOn="{StaticResource MahApps.Styles.Button}">
+                <Setter Property="Width" Value="160"/>
+                <Setter Property="Margin" Value="{StaticResource DefaultMargin}"/>
+            </Style>
                     
         </ResourceDictionary>
     </Application.Resources>

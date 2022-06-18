@@ -9,7 +9,7 @@
              prism:ViewModelLocator.AutoWireViewModel="True"
              mc:Ignorable="d" 
              Height="405" Width="720"
-             Margin="{StaticResource DefaultWindowMargin}">
+             Style="{StaticResource DefaultUserControlStyle}">
     <StackPanel VerticalAlignment="Bottom">
         <TextBox Text="{Binding Login, UpdateSourceTrigger=PropertyChanged}"
                  Margin="{StaticResource DefaultMargin}"/>
@@ -24,7 +24,6 @@
         </PasswordBox>
 
         <Button Command="{Binding OnLoginCommand}"
-                HorizontalAlignment="Right"
-                Width="360">Login</Button>
+                HorizontalAlignment="Right">Login</Button>
     </StackPanel>
 </UserControl>

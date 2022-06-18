@@ -1,4 +1,5 @@
-﻿using Kruh.ViewModels;
+﻿using Kruh.Services.RequestService;
+using Kruh.ViewModels;
 using Kruh.Views;
 using Prism.DryIoc;
 using Prism.Ioc;
@@ -23,6 +24,10 @@ namespace Kruh.Infrastructure
       containerRegistry.RegisterDialogWindow<BaseDialogWindow>();
       containerRegistry.RegisterDialogWindow<LoginDialogWindow>(nameof(LoginDialogWindow));
       containerRegistry.RegisterDialog<LoginDialog, LoginDialogViewModel>(nameof(LoginDialog));
+      containerRegistry.RegisterDialog<MessageDialog, MessageDialogViewModel>(nameof(MessageDialog));
+      containerRegistry.RegisterDialog<ChoiceDialog, ChoiceDialogViewModel>(nameof(ChoiceDialog));
+      //Services
+      containerRegistry.RegisterSingleton<IRequestService, RequestService>();
 
     }
 

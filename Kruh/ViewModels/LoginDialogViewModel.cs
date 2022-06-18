@@ -1,4 +1,5 @@
-﻿using Prism.Commands;
+﻿using Kruh.Services.RequestService;
+using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Services.Dialogs;
 using System;
@@ -6,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Kruh.Extensions;
 
 namespace Kruh.ViewModels
 {
@@ -13,7 +15,7 @@ namespace Kruh.ViewModels
   {
     #region Properties
 
-    private string Password { get; set; }
+    private string password;
 
     private string login;
     public string Login
@@ -22,12 +24,7 @@ namespace Kruh.ViewModels
       set { SetProperty(ref login, value); }
     }
 
-    private string title = "Login";
-    public string Title
-    {
-      get { return title; }
-      set { SetProperty(ref title, value); }
-    }
+    public string Title => "Login";
 
     public event Action<IDialogResult> RequestClose;
 
@@ -37,7 +34,7 @@ namespace Kruh.ViewModels
 
     private DelegateCommand onLoginCommand;
     public DelegateCommand OnLoginCommand =>
-        onLoginCommand ?? (onLoginCommand = new DelegateCommand(OnLogin, CanExecuteLoginCommand))
+        onLoginCommand ?? (onLoginCommand = new DelegateCommand(async ()=> await OnLogin(), CanExecuteLoginCommand))
         .ObservesProperty(()=> Login);
 
     private DelegateCommand<string> onPasswordChangedCommand;
@@ -46,35 +43,62 @@ namespace Kruh.ViewModels
 
     bool CanExecuteLoginCommand()
     {
-      if(string.IsNullOrEmpty(Login) || string.IsNullOrEmpty(Password))
+      if(string.IsNullOrEmpty(Login) || string.IsNullOrEmpty(password))
         return false;
       
       return true;
     }
 
+    private readonly IRequestService requestService;
+    private readonly IDialogService dialogService;
+
     #endregion
 
-    public LoginDialogViewModel()
+    public LoginDialogViewModel(
+      IRequestService requestService
+      , IDialogService dialogService)
     {
-
+      this.requestService = requestService;
+      this.dialogService = dialogService;
     }
 
     void OnPasswordChanged(string password)
     {
-      this.Password = password;
+      this.password = password;
       OnLoginCommand.RaiseCanExecuteChanged();
     }
 
 
-    void OnLogin()
+    async Task OnLogin()
     {
+      try
+      {
+        var result = await requestService.LoginIn(Login, password);
+        if(result)
+        {
+          CloseDialog(new DialogResult(ButtonResult.OK));
+        }
+        else
+        {
+          dialogService.ShowMessage("Logowanie się nie powiodło");
+        }
+      }
+      catch(Exception ex)
+      {
+        dialogService.ShowMessage($"Wystąpił błąd podczas logowania: { ex.Message}", "Błąd");
+      }
+    }
 
+    protected void CloseDialog(IDialogResult result)
+    {
+      RequestClose?.Invoke(result);
     }
 
     public bool CanCloseDialog()
     {
       return true;
     }
+
 
     public void OnDialogClosed()
     {
