@@ -10,7 +10,7 @@ namespace Kruh.Services.RequestService
   {
     public async Task<bool> LoginIn(string login, string password)
     {
-      throw new NotImplementedException();
+  
 
       //TODO: Add login method 
       return true;

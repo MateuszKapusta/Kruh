@@ -20,14 +20,19 @@ namespace Kruh.Infrastructure
 
     public static void Register(IContainerRegistry containerRegistry)
     {
+      //Services
+      containerRegistry.RegisterSingleton<IRequestService, RequestService>();
+
+      //Navigation
+      containerRegistry.RegisterForNavigation<UserView>();
+      containerRegistry.RegisterForNavigation<DetailsView>();
+
       //Dialogs
       containerRegistry.RegisterDialogWindow<BaseDialogWindow>();
       containerRegistry.RegisterDialogWindow<LoginDialogWindow>(nameof(LoginDialogWindow));
       containerRegistry.RegisterDialog<LoginDialog, LoginDialogViewModel>(nameof(LoginDialog));
       containerRegistry.RegisterDialog<MessageDialog, MessageDialogViewModel>(nameof(MessageDialog));
       containerRegistry.RegisterDialog<ChoiceDialog, ChoiceDialogViewModel>(nameof(ChoiceDialog));
-      //Services
-      containerRegistry.RegisterSingleton<IRequestService, RequestService>();
 
     }
 

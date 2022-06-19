@@ -7,7 +7,7 @@
         xmlns:prism="http://prismlibrary.com/"
         xmlns:mah="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
         mc:Ignorable="d"
-        prism:Dialog.WindowStartupLocation="CenterScreen"   
+        WindowStartupLocation="CenterScreen"   
         ResizeMode="NoResize"
         SizeToContent="WidthAndHeight"               
         Title="{Binding Title}">

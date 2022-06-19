@@ -11,19 +11,28 @@
              Height="405" Width="720"
              Style="{StaticResource DefaultUserControlStyle}">
     <StackPanel VerticalAlignment="Bottom">
-        <TextBox Text="{Binding Login, UpdateSourceTrigger=PropertyChanged}"
-                 Margin="{StaticResource DefaultMargin}"/>
-        <PasswordBox Margin="{StaticResource DefaultMargin}">
-            <behaviors:Interaction.Triggers>
-                <behaviors:EventTrigger EventName="PasswordChanged">
-                    <prism:InvokeCommandAction Command="{Binding OnPasswordChangedCommand}"
+        <BulletDecorator Margin="{StaticResource DefaultMargin}">
+            <BulletDecorator.Bullet>
+                <Label Content="Login:"/>
+            </BulletDecorator.Bullet>
+            <TextBox Text="{Binding Login, UpdateSourceTrigger=PropertyChanged}"/>
+        </BulletDecorator>
+        <BulletDecorator Margin="{StaticResource DefaultMargin}">
+            <BulletDecorator.Bullet>
+                <Label Content="Hasło:"/>
+            </BulletDecorator.Bullet>
+            <PasswordBox>
+                <behaviors:Interaction.Triggers>
+                    <behaviors:EventTrigger EventName="PasswordChanged">
+                        <prism:InvokeCommandAction Command="{Binding OnPasswordChangedCommand}"
                                                TriggerParameterPath="Source.Password"/>
 
-                </behaviors:EventTrigger>
-            </behaviors:Interaction.Triggers>
-        </PasswordBox>
-
+                    </behaviors:EventTrigger>
+                </behaviors:Interaction.Triggers>
+            </PasswordBox>
+        </BulletDecorator>
         <Button Command="{Binding OnLoginCommand}"
-                HorizontalAlignment="Right">Login</Button>
+                HorizontalAlignment="Right"
+                Content="Login"/>
     </StackPanel>
 </UserControl>

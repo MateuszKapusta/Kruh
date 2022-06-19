@@ -6,10 +6,23 @@
         xmlns:prism="http://prismlibrary.com/"
         xmlns:mah="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
         xmlns:local="clr-namespace:Kruh"
+        xmlns:inf="clr-namespace:Kruh.Infrastructure"
         mc:Ignorable="d"
         prism:ViewModelLocator.AutoWireViewModel="True"
-        Title="Kruh" Height="450" Width="800">
-    <Grid>
-        <ContentControl prism:RegionManager.RegionName="ContentRegion" />
-    </Grid>
+        WindowStartupLocation="CenterScreen"
+        Height="800" Width="1400"       
+        Title="Kruh">
+
+    <mah:MetroWindow.LeftWindowCommands>
+        <mah:WindowCommands>
+            <Button Command="{Binding OnUsersCommand}"
+                    Content="Użytkownicy"/>
+            <Button Command="{Binding OnDetailsCommand}"
+                    Content="Szczegóły"/>
+        </mah:WindowCommands>
+    </mah:MetroWindow.LeftWindowCommands>
+
+    <StackPanel>
+        <ContentControl prism:RegionManager.RegionName="{x:Static inf:RegionNames.MainRegion}"/>
+    </StackPanel>
 </mah:MetroWindow>
