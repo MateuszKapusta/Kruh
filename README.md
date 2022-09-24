@@ -1,2 +1,2 @@
 # Kruh
-Application testing PRISM library
+WPF test application for PRISM library
