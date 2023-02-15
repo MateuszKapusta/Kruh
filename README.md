@@ -1,2 +1,2 @@
 # Kruh
-WPF test application for PRISM library
+A Simple WPF application to test the Prism library
